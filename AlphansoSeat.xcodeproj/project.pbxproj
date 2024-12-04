@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2B43991E2D005E21008D908D /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2B43990B2D005E21008D908D /* LICENSE.txt */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		2B4398E12D0042E9008D908D /* AlphansoSeat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlphansoSeat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B43990B2D005E21008D908D /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		2B4398D72D0042E9008D908D = {
 			isa = PBXGroup;
 			children = (
+				2B43990B2D005E21008D908D /* LICENSE.txt */,
 				2B4398E32D0042E9008D908D /* AlphansoSeat */,
 				2B4398E22D0042E9008D908D /* Products */,
 			);
@@ -132,6 +138,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B43991E2D005E21008D908D /* LICENSE.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
