@@ -10,7 +10,10 @@ Pod::Spec.new do |s|
     :git => "https://github.com/chaturj/AlphansoSeatIO.git",
     :tag => s.version.to_s
   }
+  s.source_files = '**/AlphansoSeat/**/*.{swift}'
   s.social_media_url = 'https://twitter.com/chaturj'
   s.ios.deployment_target = '16.0'
   s.requires_arc = true
+  s.platform = :ios, '9.0'
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5' }
 end
