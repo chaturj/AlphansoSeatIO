@@ -6,8 +6,6 @@ struct ChartKey: Codable {
      var events:[String]?
 }
 public class SeatsioWebView: WKWebView {
-   
-    
     var bridge: JustBridge!
     var seatsioConfig: SeatsioConfig
 
@@ -26,48 +24,68 @@ public class SeatsioWebView: WKWebView {
   
     private func loadSeatingChart() {
        let callbacks = self.buildCallbacksConfiguration().joined(separator: ",")
-        let config = self.buildConfiguration()
+        print(callbacks)
+        var config = self.buildConfiguration()
+        print(config)
         let data = config.data(using: .utf8)!
         do {
             let f = try JSONDecoder().decode(ChartKey.self, from: data)
             let eventKey = f.events?[0]
-             let htmlString = HTML1
-                            .replacingOccurrences(of: "%workSpacekey%", with: f.workspaceKey ?? "")
-                            .replacingOccurrences(of: "%eventID%", with: eventKey ?? "")
-                            .replacingOccurrences(of: "%configAsJs%", with: callbacks)
-                        self.loadHTMLString(htmlString, baseURL: nil)
+            print(f.workspaceKey)
+            print(eventKey)
+            let htmlString = HTML1
+                
+                .replacingOccurrences(of: "%workSpacekey%", with: f.workspaceKey ?? "")
+                .replacingOccurrences(of: "%eventID%", with: eventKey ?? "")
+                .replacingOccurrences(of: "%configAsJs%", with: callbacks)
+            print(htmlString)
+            self.loadHTMLString(htmlString, baseURL: nil)
         } catch {
             print(error)
         }
+        
+        
+       
     }
-    
     private func buildConfiguration() -> String
     {
         seatsioConfig.jsonStringRepresentation
     }
+
     private func buildCallbacksConfiguration() -> [String] {
         var callbacks = [String]()
+       
         if (self.seatsioConfig.onObjectSelected != nil) {
             bridge.register("onSeatSelect") { (data, callback) in
-                self.seatsioConfig.onObjectSelected!(decodeSeatsioObject(firstArg(data)), decodeTicketType(secondArg(data)))
+                print(data)
+                self.seatsioConfig.onObjectSelected!(decodeSeatsioObject(firstArg(data)))
             }
             callbacks.append(buildCallbackConfigAsJS("onSeatSelect"))
         }
         if (self.seatsioConfig.onObjectDeselected != nil) {
             bridge.register("onSeatDeselect") { (data, callback) in
-                self.seatsioConfig.onObjectDeselected!(decodeSeatsioObject(firstArg(data)), decodeTicketType(secondArg(data)))
+                self.seatsioConfig.onObjectDeselected!(decodeSeatsioObject(firstArg(data)))
             }
             callbacks.append(buildCallbackConfigAsJS("onSeatDeselect"))
         }
+        print(callbacks)
         return callbacks
     }
-
     private func buildCallbackConfigAsJS(_ name: String) -> String {
-        return """
-               \(name): (arg1, arg2) =>
-                window.bridge.call("\(name)", [JSON.stringify(arg1), JSON.stringify(arg2)], data => resolve(data), error => reject(error))
-               """
-    }
+            return """
+                   \(name): (arg1, arg2) => 
+                    window.bridge.call("\(name)", [JSON.stringify(arg1), JSON.stringify(arg2)], data => resolve(data), error => reject(error))
+                   """
+        }
+//    private func buildCallbackConfigAsJS(_ name: String) -> String {
+//        return """
+//               \(name): (arg1, arg2) => (
+//                   new Promise((resolve, reject) => {
+//                       window.bridge.call("\(name)", [JSON.stringify(arg1), JSON.stringify(arg2)], data => resolve(data), error => reject(error))
+//                   })
+//               )
+//               """
+//    }
 
     public func cleanup() {
         bridge.cleanUp()

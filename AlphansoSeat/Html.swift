@@ -6,10 +6,6 @@ let HTML = """
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <script src="https://booking.seatmap.pro/static/seatmap-booking-renderer.js" type="text/javascript"></script>
             </head>
-            
-            <style>
-            .
-            </style>
             <body style="margin: 0; padding: 0;">
                 <div id="chart" style="width: 100%; height: 100%;"></div>
 
@@ -115,40 +111,32 @@ let HTML1 = """
                     <meta name="viewport" content="width=device-width, initial-scale=1"/>    
                     
                 </head>
-            
-               
                 <body>
                 <!-- © Seatmap.pro -->
                         <!-- https://seatmap.pro -->
-                                       
-            <div id="root"></div>
-                <script src="https://booking.seatmap.pro/static/seatmap-booking-renderer.js"></script>
-                                            <div class="zoom-button-list" style="position:fixed;right:20px; bottom:20px;">
-                                              <div class="zoom-button" onclick="seatmapRenderer.zoomIn()" style="font-size:30px; background-color:#ffffff; padding:8px; border-radius: 5px; margin-bottom:5px;">+</div>
-                                              <div class="zoom-button" onclick="seatmapRenderer.zoomOut()" style="font-size:30px; background-color:#ffffff; padding:8px; border-radius: 5px;">–</div>
-                                            </div> 
-                <script>
+                        <div id="root"></div>
+                                   <script src="https://booking.seatmap.pro/static/seatmap-booking-renderer.js"></script>
+                                                               <div class="zoom-button-list" style="position:fixed;right:20px; bottom:20px;">
+                                                                 <div class="zoom-button" onclick="seatmapRenderer.zoomIn()" style="font-size:30px; background-color:#ffffff; padding:8px; border-radius: 5px; margin-bottom:5px;">+</div>
+                                                                 <div class="zoom-button" onclick="seatmapRenderer.zoomOut()" style="font-size:30px; background-color:#ffffff; padding:8px; border-radius: 5px;">–</div>
+                                                               </div> 
+                                   <script>
                 var el = document.getElementById('root');
+
             var settings = {
               publicKey: '%workSpacekey%',%configAsJs%
             };
+
             var renderer = (window.seatmapRenderer = new SeatmapBookingRenderer(el, settings));
             var eventId = '%eventID%';
             renderer
               .loadEvent(eventId)
               .zoomToFit()
               .then(function () {
-            console.log('Prices', renderer.getPrices());
-            });
+                // After loading the event
+                  console.log('Prices', renderer.getPrices());
+              });
                 </script>
              </body>
              </html>
             """
-//<img src="https://static-00.iconduck.com/assets.00/plus-icon-512x512-1ksw3ncc.png"/>
-/*<style>
-.zoom-button:hover{
-background-color: transparent;
-outline : none !important;
-box-shadow : none !important;
-}
-</style>*/

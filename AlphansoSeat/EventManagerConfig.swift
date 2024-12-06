@@ -12,9 +12,9 @@ struct EventManagerConfigParams: Encodable {
 public final class EventManagerConfig: SeatsioConfig {
     
     private(set) var params = EventManagerConfigParams()
-    public private(set) var onObjectSelected: ((SeatsioObject, TicketType?) -> Void)?
-    public private(set) var onObjectDeselected: ((SeatsioObject, TicketType?) -> Void)?
-//    public private(set) var onObjectClicked: ((SeatsioObject) -> Void)?
+    public private(set) var onObjectSelected: ((SeatsioObject) -> Void)?
+    public private(set) var onObjectDeselected: ((SeatsioObject) -> Void)?
+    public private(set) var onObjectClicked: ((SeatsioObject) -> Void)?
 
     
     public init() {}
@@ -37,20 +37,20 @@ public final class EventManagerConfig: SeatsioConfig {
         return self
     }
    
-    public func onObjectSelected(_ onObjectSelected: @escaping (SeatsioObject, TicketType?) -> ()) -> Self {
+    public func onObjectSelected(_ onObjectSelected: @escaping (SeatsioObject) -> ()) -> Self {
         self.onObjectSelected = onObjectSelected
         return self
     }
 
-    public func onObjectDeselected(_ onObjectDeselected: @escaping (SeatsioObject, TicketType?) -> ()) -> Self {
+    public func onObjectDeselected(_ onObjectDeselected: @escaping (SeatsioObject) -> ()) -> Self {
         self.onObjectDeselected = onObjectDeselected
         return self
     }
 
-    /* public func onObjectClicked(_ onObjectClicked: @escaping (SeatsioObject) -> ()) -> Self {
-self.onObjectClicked = onObjectClicked
-return self
-}*/
+    public func onObjectClicked(_ onObjectClicked: @escaping (SeatsioObject) -> ()) -> Self {
+        self.onObjectClicked = onObjectClicked
+        return self
+    }
 
    
 

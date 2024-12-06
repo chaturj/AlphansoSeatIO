@@ -24,9 +24,9 @@ public class SeatingChartConfig: SeatsioConfig, Encodable {
     public private(set) var channels: Set<String>?
 
     
-//    public private(set) var onObjectClicked: ((SeatsioObject) -> Void)?
-    public private(set) var onObjectSelected: ((SeatsioObject, TicketType?) -> Void)?
-    public private(set) var onObjectDeselected: ((SeatsioObject, TicketType?) -> Void)?
+    public private(set) var onObjectClicked: ((SeatsioObject) -> Void)?
+    public private(set) var onObjectSelected: ((SeatsioObject) -> Void)?
+    public private(set) var onObjectDeselected: ((SeatsioObject) -> Void)?
     
     public var toolName: String { "SeatingChart" }
 
@@ -62,17 +62,22 @@ public class SeatingChartConfig: SeatsioConfig, Encodable {
         return self
     }
 
-    public func onObjectSelected(_ onObjectSelected: @escaping (SeatsioObject, TicketType?) -> ()) -> Self {
+    public func onObjectSelected(_ onObjectSelected: @escaping (SeatsioObject) -> ()) -> Self {
         self.onObjectSelected = onObjectSelected
         return self
     }
 
-    public func onObjectDeselected(_ onObjectDeselected: @escaping (SeatsioObject, TicketType?) -> ()) -> Self {
+    public func onObjectDeselected(_ onObjectDeselected: @escaping (SeatsioObject) -> ()) -> Self {
         self.onObjectDeselected = onObjectDeselected
         return self
     }
 
     @available(*, deprecated, message: "use showSectionContents('always') instead")
+    
+
+    
+
+   
 
     public func showActiveSectionTooltip(_ showActiveSectionTooltip: Bool) -> Self {
         self.showActiveSectionTooltip = showActiveSectionTooltip
@@ -84,6 +89,16 @@ public class SeatingChartConfig: SeatsioConfig, Encodable {
         return self
     }
 
+
+ 
+
+    
+
+    
+
+   
+
+    
     public func sectionColor(_ sectionColor: String) -> Self {
         self.sectionColor = sectionColor
         return self
@@ -95,10 +110,20 @@ public class SeatingChartConfig: SeatsioConfig, Encodable {
     }
 
     
-    /*public func onObjectClicked(_ onObjectClicked: @escaping (SeatsioObject) -> ()) -> Self {
-self.onObjectClicked = onObjectClicked
-return self
-}*/
+
+    
+    public func onObjectClicked(_ onObjectClicked: @escaping (SeatsioObject) -> ()) -> Self {
+        self.onObjectClicked = onObjectClicked
+        return self
+    }
+
+   
+  
+
+ 
+
+
+   
 
     public func showZoomOutButton(_ showZoomOutButton: Bool) -> Self {
         self.showZoomOutButtonOnMobile = showZoomOutButton

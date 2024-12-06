@@ -2,10 +2,7 @@
 //  JustBridge.swift
 //  JustBridge
 //
-//  Created by YZF on 2018/12/27.
-//
-// Copyright (c) 2018 Xiaoye220 <576934532@qq.com>
-//
+
 
 import UIKit
 import WebKit
@@ -137,7 +134,10 @@ public class JustBridge: NSObject {
     ///   - name: handler unique name
     ///   - handler: closures can be invoked when js call this handler name
     public func register(_ name: String, handler:@escaping Handler) {
+        print(name)
+        print(handler)
         self.handlers[name] = handler
+        print(handlers)
     }
 
     /// Remove a handler
