@@ -24,18 +24,12 @@ public class SeatsioWebView: WKWebView {
   
     private func loadSeatingChart() {
        let callbacks = self.buildCallbacksConfiguration().joined(separator: ",")
-        print(callbacks)
         let config = self.buildConfiguration()
-        print(config)
         let data = config.data(using: .utf8)!
         do {
             let f = try JSONDecoder().decode(ChartKey.self, from: data)
             let eventKey = f.events?[0]
-            let htmlString = HTML1
-                .replacingOccurrences(of: "%workSpacekey%", with: f.workspaceKey ?? "")
-                .replacingOccurrences(of: "%eventID%", with: eventKey ?? "")
-                .replacingOccurrences(of: "%configAsJs%", with: callbacks)
-            print(htmlString)
+            let htmlString = HTML1.replacingOccurrences(of: "%workSpacekey%", with: f.workspaceKey ?? "").replacingOccurrences(of: "%eventID%", with: eventKey ?? "").replacingOccurrences(of: "%configAsJs%", with: callbacks)
             self.loadHTMLString(htmlString, baseURL: nil)
         } catch {
             print(error)
@@ -51,7 +45,6 @@ public class SeatsioWebView: WKWebView {
 
     private func buildCallbacksConfiguration() -> [String] {
         var callbacks = [String]()
-       
         if (self.seatsioConfig.onObjectSelected != nil) {
             bridge.register("onSeatSelect") { (data, callback) in
                 self.seatsioConfig.onObjectSelected!(decodeSeatsioObject(firstArg(data)))
@@ -64,7 +57,6 @@ public class SeatsioWebView: WKWebView {
             }
             callbacks.append(buildCallbackConfigAsJS("onSeatDeselect"))
         }
-        print(callbacks)
         return callbacks
     }
     private func buildCallbackConfigAsJS(_ name: String) -> String {
