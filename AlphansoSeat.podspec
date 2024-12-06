@@ -17,5 +17,4 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.platform = :ios, '9.0'
   s.swift_version = '4.0'
-  s.dependency = 'AlphansoSeat', '~> 1.1.0'
 end
