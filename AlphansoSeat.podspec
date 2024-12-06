@@ -8,7 +8,8 @@ Pod::Spec.new do |s|
   s.author           = { "Chatur Jodhani" => "chaturj@alphansotech.com" }
   s.source           = {
     :git => "https://github.com/chaturj/AlphansoSeatIO.git",
-    :branch => "main"
+    :branch => "main",
+    :tag => s.version.to_s
   }
   s.source_files = '**/AlphansoSeat/**/*.{swift}'
   s.social_media_url = 'https://twitter.com/chaturj'
