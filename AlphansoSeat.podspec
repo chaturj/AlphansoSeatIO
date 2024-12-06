@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
     :branch => "main",
     :tag => s.version.to_s
   }
-  s.source_files = '**/AlphansoSeat/**/*.{swift}'
+  s.source_files = '**/AlphansoSeat/*.{swift}'
   s.social_media_url = 'https://twitter.com/chaturj'
   s.ios.deployment_target = '16.0'
   s.requires_arc = true
