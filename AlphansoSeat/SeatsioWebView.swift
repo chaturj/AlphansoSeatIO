@@ -31,8 +31,6 @@ public class SeatsioWebView: WKWebView {
         do {
             let f = try JSONDecoder().decode(ChartKey.self, from: data)
             let eventKey = f.events?[0]
-            print(f.workspaceKey)
-            print(eventKey)
             let htmlString = HTML1
                 
                 .replacingOccurrences(of: "%workSpacekey%", with: f.workspaceKey ?? "")
@@ -57,7 +55,6 @@ public class SeatsioWebView: WKWebView {
        
         if (self.seatsioConfig.onObjectSelected != nil) {
             bridge.register("onSeatSelect") { (data, callback) in
-                print(data)
                 self.seatsioConfig.onObjectSelected!(decodeSeatsioObject(firstArg(data)))
             }
             callbacks.append(buildCallbackConfigAsJS("onSeatSelect"))
@@ -77,16 +74,6 @@ public class SeatsioWebView: WKWebView {
                     window.bridge.call("\(name)", [JSON.stringify(arg1), JSON.stringify(arg2)], data => resolve(data), error => reject(error))
                    """
         }
-//    private func buildCallbackConfigAsJS(_ name: String) -> String {
-//        return """
-//               \(name): (arg1, arg2) => (
-//                   new Promise((resolve, reject) => {
-//                       window.bridge.call("\(name)", [JSON.stringify(arg1), JSON.stringify(arg2)], data => resolve(data), error => reject(error))
-//                   })
-//               )
-//               """
-//    }
-
     public func cleanup() {
         bridge.cleanUp()
         bridge = nil
