@@ -25,14 +25,13 @@ public class SeatsioWebView: WKWebView {
     private func loadSeatingChart() {
        let callbacks = self.buildCallbacksConfiguration().joined(separator: ",")
         print(callbacks)
-        var config = self.buildConfiguration()
+        let config = self.buildConfiguration()
         print(config)
         let data = config.data(using: .utf8)!
         do {
             let f = try JSONDecoder().decode(ChartKey.self, from: data)
             let eventKey = f.events?[0]
             let htmlString = HTML1
-                
                 .replacingOccurrences(of: "%workSpacekey%", with: f.workspaceKey ?? "")
                 .replacingOccurrences(of: "%eventID%", with: eventKey ?? "")
                 .replacingOccurrences(of: "%configAsJs%", with: callbacks)
