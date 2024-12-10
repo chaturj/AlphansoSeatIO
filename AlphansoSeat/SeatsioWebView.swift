@@ -2,49 +2,53 @@ import Foundation
 import WebKit
 
 struct ChartKey: Codable {
-     var workspaceKey: String?
-     var events:[String]?
+    var workspaceKey: String?
+    var events:[String]?
 }
 public class SeatsioWebView: WKWebView {
     var bridge: JustBridge!
     var seatsioConfig: SeatsioConfig
-
+    
     public init(frame: CGRect, region: String, seatsioConfig: SeatsioConfig)
     {
         self.seatsioConfig = seatsioConfig
         super.init(frame: frame, configuration: WKWebViewConfiguration())
-         bridge = JustBridge(with: self)
+        bridge = JustBridge(with: self)
         loadSeatingChart()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("not implemented")
     }
-
-  
+    
+    
     private func loadSeatingChart() {
-       let callbacks = self.buildCallbacksConfiguration().joined(separator: ",")
+        let callbacks = self.buildCallbacksConfiguration().joined(separator: ",")
         let config = self.buildConfiguration()
         let data = config.data(using: .utf8)!
         do {
             let f = try JSONDecoder().decode(ChartKey.self, from: data)
             let eventKey = f.events?[0]
-            let htmlString = HTML1.replacingOccurrences(of: "%workSpacekey%", with: f.workspaceKey ?? "").replacingOccurrences(of: "%eventID%", with: eventKey ?? "").replacingOccurrences(of: "%configAsJs%", with: callbacks)
+            let htmlString = HTML1
+                .replacingOccurrences(of: "%workSpacekey%", with: f.workspaceKey ?? "")
+                .replacingOccurrences(of: "%eventID%", with: eventKey ?? "")
+                .replacingOccurrences(of: "%configAsJs%", with: callbacks)
             self.loadHTMLString(htmlString, baseURL: nil)
         } catch {
-            print(error)
+            print("Error Load html:\(error.localizedDescription)")
         }
         
         
-       
+        
     }
     private func buildConfiguration() -> String
     {
         seatsioConfig.jsonStringRepresentation
     }
-
+    
     private func buildCallbacksConfiguration() -> [String] {
         var callbacks = [String]()
+        
         if (self.seatsioConfig.onObjectSelected != nil) {
             bridge.register("onSeatSelect") { (data, callback) in
                 self.seatsioConfig.onObjectSelected!(decodeSeatsioObject(firstArg(data)))
@@ -57,14 +61,20 @@ public class SeatsioWebView: WKWebView {
             }
             callbacks.append(buildCallbackConfigAsJS("onSeatDeselect"))
         }
+        if (self.seatsioConfig.onCartChange != nil) {
+            bridge.register("onCartChange") { (data, callback) in
+                self.seatsioConfig.onCartChange!(decodeSeatsioCartObjects(firstArg(data)))
+            }
+            callbacks.append(buildCallbackConfigAsJS("onCartChange"))
+        }
         return callbacks
     }
     private func buildCallbackConfigAsJS(_ name: String) -> String {
-            return """
+        return """
                    \(name): (arg1, arg2) => 
                     window.bridge.call("\(name)", [JSON.stringify(arg1), JSON.stringify(arg2)], data => resolve(data), error => reject(error))
                    """
-        }
+    }
     public func cleanup() {
         bridge.cleanUp()
         bridge = nil
@@ -91,7 +101,10 @@ func decodeSeatsioObjects(_ data: Any) -> [SeatsioObject] {
     return try! JSONDecoder().decode([SeatsioObject].self, from: dataToDecode)
 }
 
-
+func decodeSeatsioCartObjects(_ data: Any) -> CartObject {
+    let dataToDecode = (data as! String).data(using: .utf8)!
+    return try! JSONDecoder().decode(CartObject.self, from: dataToDecode)
+}
 
 
 func decodeFloat(_ data: Any) -> Float {
@@ -107,13 +120,13 @@ func decodeTicketType(_ data: Any) -> TicketType? {
     if (data is NSNull) {
         return nil
     }
-
+    
     let dataAsString = data as! String
-
+    
     if (dataAsString == "null") {
         return nil
     }
-
+    
     let dataToDecode = dataAsString.data(using: .utf8)!
     return try! JSONDecoder().decode(TicketType.self, from: dataToDecode)
 }

@@ -4,7 +4,6 @@ public struct SeatsioObject: Decodable {
     public let id: Int?
     public let key: String?
     public let price: Float?
-//    public let special: String?
     public let x: Int?
     public let y: Int?
     public let ax: Float?
@@ -33,5 +32,15 @@ extension SeatsioObject: Equatable {
 
     public static func ==(lhs: SeatsioObject, rhs: SeatsioObject) -> Bool {
         lhs.id == rhs.id
+    }
+}
+
+
+public struct CartObject: Decodable {
+    public let seats: [SeatsioObject]?
+    public let ga: [SeatsioObject]?
+    public init(seats: [SeatsioObject]?, ga: [SeatsioObject]?) {
+        self.seats = seats
+        self.ga = ga
     }
 }

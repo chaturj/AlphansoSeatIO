@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
   s.name             = "AlphansoSeat"
   s.summary          = "An Objective-C library for Elliptic Curve Digital Signing Algorithm (ECDSA) and for Elliptic Curve Diffie-Hellman (ECDH)."
-  s.version          = "1.1.5"
+  s.version          = "1.1.6"
   s.homepage         = "https://github.com/chaturj/AlphansoSeatIO"
   s.license          = 'Alphanso License'
   s.author           = { "Chatur Jodhani" => "chaturj@alphansotech.com" }

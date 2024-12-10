@@ -134,10 +134,7 @@ public class JustBridge: NSObject {
     ///   - name: handler unique name
     ///   - handler: closures can be invoked when js call this handler name
     public func register(_ name: String, handler:@escaping Handler) {
-        print(name)
-        print(handler)
         self.handlers[name] = handler
-        print(handlers)
     }
 
     /// Remove a handler
@@ -166,7 +163,6 @@ extension JustBridge {
 
     fileprivate func injectBridgeJS() {
         let script = WKUserScript(source: JustBridge.bridge_js, injectionTime: .atDocumentStart, forMainFrameOnly: true)
-        print(script.description)
         self.webview!.configuration.userContentController.addUserScript(script)
     }
 
